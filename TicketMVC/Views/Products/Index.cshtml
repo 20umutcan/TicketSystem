@@ -1,0 +1,214 @@
+﻿@model IEnumerable<TicketMVC.Models.Product>
+@{
+    ViewData["Title"] = "Ürünler";
+    var categories = ViewBag.Categories as IEnumerable<TicketMVC.Models.Category> ?? new List<TicketMVC.Models.Category>();
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">Ürün Listesi</h5>
+    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addModal">
+        + Yeni Ürün
+    </button>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-2">
+        <table id="productsTable" class="table table-sm table-hover table-bordered mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width:30px"></th>
+                    <th>#</th>
+                    <th>Ürün Adı</th>
+                    <th>Açıklama</th>
+                    <th>Kategori</th>
+                    <th style="width:120px">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    var warrantyParts = p.WarrantyParts?.ToList() ?? new List<TicketMVC.Models.WarrantyPart>();
+                    var partsJson = System.Text.Json.JsonSerializer.Serialize(
+                        warrantyParts.Select(w => new { w.Id, w.PartName, w.WarrantyMonths })
+                    );
+                    <tr data-productid="@p.Id"
+                        data-parts="@partsJson">
+                        <td class="text-center">
+                            <button class="btn btn-xs btn-outline-secondary toggle-parts" title="Garanti Parçaları">
+                                &#9660;
+                            </button>
+                        </td>
+                        <td>@p.Id</td>
+                        <td>@p.Name</td>
+                        <td class="text-muted small">@(p.Description ?? "-")</td>
+                        <td>@(p.Category?.Name ?? $"#{p.CategoryId}")</td>
+                        <td>
+                            <button class="btn btn-warning btn-xs edit-btn"
+                                    data-id="@p.Id"
+                                    data-name="@p.Name"
+                                    data-description="@p.Description"
+                                    data-categoryid="@p.CategoryId"
+                                    data-bs-toggle="modal" data-bs-target="#editModal">
+                                Düzenle
+                            </button>
+                            <form asp-action="Delete" method="post" class="d-inline"
+                                  onsubmit="return confirm('ürünü silmek istiyor musunuz?')">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@p.Id" />
+                                <button type="submit" class="btn btn-danger btn-xs">Sil</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1">
+    <div class="modal-dialog">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h6 class="modal-title">Yeni Ürün</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <label for="addName" class="form-label">Ürün Adı</label>
+                        <input id="addName" name="Name" class="form-control form-control-sm" required maxlength="100" />
+                    </div>
+                    <div class="mb-2">
+                        <label for="addDescription" class="form-label">Açıklama</label>
+                        <textarea id="addDescription" name="Description" class="form-control form-control-sm" rows="2" maxlength="300"></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label for="addCategoryId" class="form-label">Kategori</label>
+                        <select id="addCategoryId" name="CategoryId" class="form-select form-select-sm" required>
+                            <option value="">-- Seçiniz --</option>
+                            @foreach (var cat in categories)
+                            {
+                                <option value="@cat.Id">@cat.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Kaydet</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog">
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" id="editId" name="Id" />
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h6 class="modal-title">Ürün Düzenle</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <label for="editName" class="form-label">Ürün Adı</label>
+                        <input id="editName" name="Name" class="form-control form-control-sm" required maxlength="100" />
+                    </div>
+                    <div class="mb-2">
+                        <label for="editDescription" class="form-label">Açıklama</label>
+                        <textarea id="editDescription" name="Description" class="form-control form-control-sm" rows="2" maxlength="300"></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label for="editCategoryId" class="form-label">Kategori</label>
+                        <select id="editCategoryId" name="CategoryId" class="form-select form-select-sm" required>
+                            @foreach (var cat in categories)
+                            {
+                                <option value="@cat.Id">@cat.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-warning btn-sm">Güncelle</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function buildPartsHtml(parts, productId) {
+        var token = $('input[name="__RequestVerificationToken"]').first().val();
+        var html = '<div class="p-3 bg-light border-top"><div class="row">';
+
+        // Parts list
+        html += '<div class="col-md-7"><strong class="small">&#128274; Garanti Kapsamındaki Parçalar</strong>';
+        if (parts.length > 0) {
+            html += '<table class="table table-sm table-borderless mt-1 mb-0"><thead class="table-light"><tr><th class="small">Parça</th><th class="small">Garanti</th><th style="width:40px"></th></tr></thead><tbody>';
+            parts.forEach(function(p) {
+                html += '<tr><td class="small">' + $('<div>').text(p.partName).html() + '</td>';
+                html += '<td class="small text-success fw-bold">' + p.warrantyMonths + ' ay</td>';
+                html += '<td><form action="/Products/DeleteWarrantyPart" method="post" class="d-inline" onsubmit="return confirm(\'Parçayı kaldırmak istiyor musunuz?\')">';
+                html += '<input type="hidden" name="__RequestVerificationToken" value="' + token + '">';
+                html += '<input type="hidden" name="warrantyPartId" value="' + p.id + '">';
+                html += '<input type="hidden" name="productId" value="' + productId + '">';
+                html += '<button type="submit" class="btn btn-xs btn-outline-danger">&#10005;</button></form></td></tr>';
+            });
+            html += '</tbody></table>';
+        } else {
+            html += '<p class="text-muted small mt-1 mb-0">Bu ürün için garanti parçası tanımlanmamış.</p>';
+        }
+        html += '</div>';
+
+        // Add part form
+        html += '<div class="col-md-5"><strong class="small">+ Parça Ekle</strong>';
+        html += '<form action="/Products/AddWarrantyPart" method="post" class="mt-1">';
+        html += '<input type="hidden" name="__RequestVerificationToken" value="' + token + '">';
+        html += '<input type="hidden" name="ProductId" value="' + productId + '">';
+        html += '<div class="mb-1"><input name="PartName" class="form-control form-control-sm" required maxlength="100" placeholder="Parça adı (Örn: Anakart)"></div>';
+        html += '<div class="input-group input-group-sm mb-1"><input name="WarrantyMonths" type="number" class="form-control form-control-sm" required min="1" max="120" placeholder="Ay"><span class="input-group-text">ay</span></div>';
+        html += '<button type="submit" class="btn btn-success btn-sm w-100">Ekle</button></form>';
+        html += '</div></div></div>';
+        return html;
+    }
+
+    $(document).ready(function () {
+        var table = $('#productsTable').DataTable({
+            language: { url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/tr.json' },
+            columnDefs: [{ orderable: false, targets: [0, 5] }]
+        });
+
+        // Toggle warranty parts using DataTables row.child()
+        $('#productsTable tbody').on('click', '.toggle-parts', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+            var productId = tr.data('productid');
+            var parts = JSON.parse(tr.attr('data-parts') || '[]');
+
+            if (row.child.isShown()) {
+                row.child.hide();
+                $(this).html('&#9660;');
+            } else {
+                row.child(buildPartsHtml(parts, productId)).show();
+                $(this).html('&#9650;');
+            }
+        });
+
+        // Edit modal populate
+        $('#productsTable tbody').on('click', '.edit-btn', function () {
+            $('#editId').val($(this).data('id'));
+            $('#editName').val($(this).data('name'));
+            $('#editDescription').val($(this).data('description'));
+            $('#editCategoryId').val($(this).data('categoryid'));
+        });
+    });
+</script>
+}

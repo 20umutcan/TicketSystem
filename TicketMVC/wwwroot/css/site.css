@@ -1,0 +1,124 @@
+/* ==============================
+   Teknik Destek Sistemi — Site CSS
+   WinForms-inspired compact UI
+   ============================== */
+
+html {
+    font-size: 13px;
+}
+
+body {
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- Sidebar --- */
+nav.bg-dark {
+    background-color: #1e2a38 !important;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+}
+
+nav.bg-dark h5 {
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    color: #90caf9;
+}
+
+nav.bg-dark .nav-link {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 4px;
+    transition: background 0.15s;
+}
+
+nav.bg-dark .nav-link:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* --- Header --- */
+header.bg-primary {
+    background: linear-gradient(135deg, #1565c0, #1976d2) !important;
+    padding: 0.7rem 1.2rem !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+header.bg-primary h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* --- Cards --- */
+.card {
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+}
+
+.card-header {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+}
+
+/* --- Tables (DataTables compact) --- */
+.table-sm th,
+.table-sm td {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.5rem;
+    vertical-align: middle;
+}
+
+.table-dark th {
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    background-color: #263238 !important;
+}
+
+/* --- WinForms-style tiny buttons --- */
+.btn-xs {
+    padding: 1px 7px;
+    font-size: 0.74rem;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+/* --- Modal headers --- */
+.modal-header {
+    padding: 0.5rem 1rem;
+}
+
+.modal-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 0.75rem 1rem;
+}
+
+.modal-footer {
+    padding: 0.4rem 1rem;
+}
+
+/* --- Form controls compact --- */
+.form-label {
+    font-size: 0.78rem;
+    margin-bottom: 2px;
+    font-weight: 500;
+    color: #495057;
+}
+
+.form-control-sm,
+.form-select-sm {
+    font-size: 0.8rem;
+}
+
+/* --- Focus ring --- */
+.btn:focus, .form-control:focus, .form-select:focus {
+    box-shadow: 0 0 0 0.15rem rgba(25,118,210,0.3);
+}
+
+/* --- Badges --- */
+.badge {
+    font-size: 0.7rem;
+    padding: 3px 7px;
+}

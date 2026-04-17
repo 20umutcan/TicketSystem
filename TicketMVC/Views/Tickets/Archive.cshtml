@@ -1,0 +1,95 @@
+@model IEnumerable<TicketMVC.Models.Ticket>
+@{
+    ViewData["Title"] = "Arşiv";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">Arşivlenmiş Arıza Kayıtları</h5>
+    <a asp-action="Index" class="btn btn-secondary btn-sm">&larr; Aktif Kayıtlara Dön</a>
+</div>
+
+<!-- Quick Search Bar -->
+<div class="mb-3">
+    <input type="text" id="quickSearch" class="form-control form-control-sm"
+           placeholder="&#128269; Müşteri adı, başlık veya telefon ile ara..." />
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-2">
+        <table id="archiveTable" class="table table-sm table-hover table-bordered mb-0">
+            <thead class="table-secondary">
+                <tr>
+                    <th>#</th>
+                    <th>Öncelik</th>
+                    <th>Başlık</th>
+                    <th>Müşteri</th>
+                    <th>Telefon</th>
+                    <th>Ürün</th>
+                    <th>Durum</th>
+                    <th>Tarih</th>
+                    <th style="width:100px">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var t in Model)
+                {
+                    var priorityBadge = t.Priority switch {
+                        TicketMVC.Models.TicketPriority.Critical => "<span class='badge bg-danger'>KRİTİK</span>",
+                        TicketMVC.Models.TicketPriority.High     => "<span class='badge bg-warning text-dark'>YÜKSEK</span>",
+                        TicketMVC.Models.TicketPriority.Normal   => "<span class='badge bg-info text-dark'>NORMAL</span>",
+                        TicketMVC.Models.TicketPriority.Low      => "<span class='badge bg-secondary'>DÜŞÜK</span>",
+                        _ => ""
+                    };
+                    var statusBadge = t.Status switch {
+                        TicketMVC.Models.TicketStatus.Open       => "<span class='badge bg-danger'>Açık</span>",
+                        TicketMVC.Models.TicketStatus.InProgress => "<span class='badge bg-warning text-dark'>İşlemde</span>",
+                        TicketMVC.Models.TicketStatus.Resolved   => "<span class='badge bg-primary'>Çözüldü</span>",
+                        TicketMVC.Models.TicketStatus.Closed     => "<span class='badge bg-success'>Kapalı</span>",
+                        _ => ""
+                    };
+                    <tr class="text-muted">
+                        <td>@t.Id</td>
+                        <td>@Html.Raw(priorityBadge)</td>
+                        <td>@t.Title</td>
+                        <td>@t.CustomerName</td>
+                        <td>@(t.ContactPhone ?? "-")</td>
+                        <td>@(t.Product?.Name ?? $"#{t.ProductId}")</td>
+                        <td>@Html.Raw(statusBadge)</td>
+                        <td>@t.CreatedDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>
+                            <form asp-action="ToggleArchive" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@t.Id" />
+                                <input type="hidden" name="currentlyArchived" value="true" />
+                                <button type="submit" class="btn btn-success btn-xs" title="Arşivden Çıkar">
+                                    &#8617; Geri Al
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @if (!Model.Any())
+        {
+            <p class="text-center text-muted mt-3">Arşivde kayıt bulunmuyor.</p>
+        }
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    $(document).ready(function () {
+        var table = $('#archiveTable').DataTable({
+            order: [[0, 'desc']],
+            pageLength: 25,
+            dom: 'lrtip',
+            language: { url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/tr.json' }
+        });
+
+        $('#quickSearch').on('keyup', function () {
+            table.search(this.value).draw();
+        });
+    });
+</script>
+}

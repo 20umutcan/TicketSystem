@@ -1,0 +1,154 @@
+﻿@{
+    ViewData["Title"] = "Kontrol Paneli";
+    var recentTickets = ViewBag.RecentTickets as IEnumerable<TicketMVC.Models.Ticket> ?? new List<TicketMVC.Models.Ticket>();
+}
+
+<div class="row g-3 mb-4">
+    <!-- Toplam Arıza -->
+    <div class="col-sm-6 col-lg-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="bg-dark text-white rounded p-3 fs-4">&#128295;</div>
+                <div>
+                    <div class="text-muted small">Toplam Arıza</div>
+                    <div class="fs-3 fw-bold">@ViewBag.TicketsCount</div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent border-0">
+                <a asp-controller="Tickets" asp-action="Index" class="btn btn-outline-dark btn-sm w-100">Tümünü Gör</a>
+            </div>
+        </div>
+    </div>
+    <!-- Açık Arızalar -->
+    <div class="col-sm-6 col-lg-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="bg-danger text-white rounded p-3 fs-4">&#9888;</div>
+                <div>
+                    <div class="text-muted small">Açık Arızalar</div>
+                    <div class="fs-3 fw-bold text-danger">@ViewBag.OpenTicketsCount</div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent border-0">
+                <a asp-controller="Tickets" asp-action="Index" class="btn btn-outline-danger btn-sm w-100">Görüntüle</a>
+            </div>
+        </div>
+    </div>
+    <!-- İşlemdeki -->
+    <div class="col-sm-6 col-lg-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="bg-warning text-dark rounded p-3 fs-4">&#9881;</div>
+                <div>
+                    <div class="text-muted small">İşlemdeki</div>
+                    <div class="fs-3 fw-bold text-warning">@ViewBag.InProgressCount</div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent border-0">
+                <a asp-controller="Tickets" asp-action="Index" class="btn btn-outline-warning btn-sm w-100">Görüntüle</a>
+            </div>
+        </div>
+    </div>
+    <!-- Kritik Arıza -->
+    <div class="col-sm-6 col-lg-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="bg-danger text-white rounded p-3 fs-4">&#128680;</div>
+                <div>
+                    <div class="text-muted small">Kritik Arıza</div>
+                    <div class="fs-3 fw-bold text-danger">@ViewBag.CriticalCount</div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent border-0">
+                <a asp-controller="Tickets" asp-action="Index" class="btn btn-outline-danger btn-sm w-100">Acile Git</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <!-- Son Arıza Kayıtları -->
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <span>Son Arıza Kayıtları</span>
+                <a asp-controller="Tickets" asp-action="Index" class="btn btn-sm btn-outline-light">Tümünü Gör</a>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-sm table-hover mb-0">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th>#</th>
+                            <th>Başlık</th>
+                            <th>Müşteri</th>
+                            <th>Öncelik</th>
+                            <th>Durum</th>
+                            <th>Tarih</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var t in recentTickets)
+                        {
+                            var pBadge = t.Priority switch {
+                                TicketMVC.Models.TicketPriority.Critical => "<span class='badge bg-danger'>Kritik</span>",
+                                TicketMVC.Models.TicketPriority.High     => "<span class='badge bg-warning text-dark'>Yüksek</span>",
+                                TicketMVC.Models.TicketPriority.Normal   => "<span class='badge bg-info text-dark'>Normal</span>",
+                                TicketMVC.Models.TicketPriority.Low      => "<span class='badge bg-secondary'>Düşük</span>",
+                                _ => ""
+                            };
+                            var sBadge = t.Status switch {
+                                TicketMVC.Models.TicketStatus.Open       => "<span class='badge bg-danger'>Açık</span>",
+                                TicketMVC.Models.TicketStatus.InProgress => "<span class='badge bg-warning text-dark'>İşlemde</span>",
+                                TicketMVC.Models.TicketStatus.Resolved   => "<span class='badge bg-primary'>Çözüldü</span>",
+                                TicketMVC.Models.TicketStatus.Closed     => "<span class='badge bg-success'>Kapalı</span>",
+                                _ => ""
+                            };
+                            <tr>
+                                <td>@t.Id</td>
+                                <td>@t.Title</td>
+                                <td>@t.CustomerName</td>
+                                <td>@Html.Raw(pBadge)</td>
+                                <td>@Html.Raw(sBadge)</td>
+                                <td class="text-muted small">@t.CreatedDate.ToLocalTime().ToString("dd.MM.yy HH:mm")</td>
+                            </tr>
+                        }
+                        @if (!recentTickets.Any())
+                        {
+                            <tr><td colspan="6" class="text-center text-muted">Kayıt yok.</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Hızlı Bilgi -->
+    <div class="col-lg-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-secondary text-white">Sistem Bilgisi</div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush small">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Kategoriler</span>
+                        <strong>@ViewBag.CategoriesCount</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Ürünler</span>
+                        <strong>@ViewBag.ProductsCount</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Aktif Arızalar</span>
+                        <strong class="text-danger">@ViewBag.TicketsCount</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Kritik</span>
+                        <strong class="text-danger">@ViewBag.CriticalCount</strong>
+                    </li>
+                </ul>
+                <hr />
+                <p class="text-muted small mb-0">
+                    Sol menüden modüllere erişebilirsiniz. Arşiv bölümünde kapatılan kayıtları görüntüleyebilirsiniz.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
