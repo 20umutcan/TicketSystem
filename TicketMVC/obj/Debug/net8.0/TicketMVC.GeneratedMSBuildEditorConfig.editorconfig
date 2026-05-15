@@ -9,59 +9,55 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = TicketMVC
 build_property.RootNamespace = TicketMVC
-build_property.ProjectDir = C:\Users\Umut\Downloads\TicketSystem-main\TicketSystem-main\TicketMVC\
+build_property.ProjectDir = C:\Users\Umut\TicketSystem\TicketMVC\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Umut\Downloads\TicketSystem-main\TicketSystem-main\TicketMVC
+build_property.MSBuildProjectDirectory = C:\Users\Umut\TicketSystem\TicketMVC
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Umut/Downloads/TicketSystem-main/TicketSystem-main/TicketMVC/Views/Categories/Index.cshtml]
+[C:/Users/Umut/TicketSystem/TicketMVC/Views/Categories/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmllc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Umut/Downloads/TicketSystem-main/TicketSystem-main/TicketMVC/Views/Customers/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJzXEluZGV4LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Umut/Downloads/TicketSystem-main/TicketSystem-main/TicketMVC/Views/Home/Index.cshtml]
+[C:/Users/Umut/TicketSystem/TicketMVC/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Umut/Downloads/TicketSystem-main/TicketSystem-main/TicketMVC/Views/Home/Privacy.cshtml]
+[C:/Users/Umut/TicketSystem/TicketMVC/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Umut/Downloads/TicketSystem-main/TicketSystem-main/TicketMVC/Views/Products/Index.cshtml]
+[C:/Users/Umut/TicketSystem/TicketMVC/Views/Products/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Umut/Downloads/TicketSystem-main/TicketSystem-main/TicketMVC/Views/Shared/Error.cshtml]
+[C:/Users/Umut/TicketSystem/TicketMVC/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Umut/Downloads/TicketSystem-main/TicketSystem-main/TicketMVC/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Umut/TicketSystem/TicketMVC/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Umut/Downloads/TicketSystem-main/TicketSystem-main/TicketMVC/Views/Tickets/Archive.cshtml]
+[C:/Users/Umut/TicketSystem/TicketMVC/Views/Tickets/Archive.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0c1xBcmNoaXZlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Umut/Downloads/TicketSystem-main/TicketSystem-main/TicketMVC/Views/Tickets/Index.cshtml]
+[C:/Users/Umut/TicketSystem/TicketMVC/Views/Tickets/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0c1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Umut/Downloads/TicketSystem-main/TicketSystem-main/TicketMVC/Views/_ViewImports.cshtml]
+[C:/Users/Umut/TicketSystem/TicketMVC/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Umut/Downloads/TicketSystem-main/TicketSystem-main/TicketMVC/Views/_ViewStart.cshtml]
+[C:/Users/Umut/TicketSystem/TicketMVC/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Umut/Downloads/TicketSystem-main/TicketSystem-main/TicketMVC/Views/Shared/_Layout.cshtml]
+[C:/Users/Umut/TicketSystem/TicketMVC/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-urw47vez7a

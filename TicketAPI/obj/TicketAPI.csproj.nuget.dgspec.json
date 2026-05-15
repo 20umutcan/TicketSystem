@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Umut\\Downloads\\TicketSystem-main\\TicketSystem-main\\TicketAPI\\TicketAPI.csproj": {}
+    "C:\\Users\\Umut\\TicketSystem\\TicketAPI\\TicketAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Umut\\Downloads\\TicketSystem-main\\TicketSystem-main\\TicketAPI\\TicketAPI.csproj": {
+    "C:\\Users\\Umut\\TicketSystem\\TicketAPI\\TicketAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Umut\\Downloads\\TicketSystem-main\\TicketSystem-main\\TicketAPI\\TicketAPI.csproj",
+        "projectUniqueName": "C:\\Users\\Umut\\TicketSystem\\TicketAPI\\TicketAPI.csproj",
         "projectName": "TicketAPI",
-        "projectPath": "C:\\Users\\Umut\\Downloads\\TicketSystem-main\\TicketSystem-main\\TicketAPI\\TicketAPI.csproj",
+        "projectPath": "C:\\Users\\Umut\\TicketSystem\\TicketAPI\\TicketAPI.csproj",
         "packagesPath": "C:\\Users\\Umut\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Umut\\Downloads\\TicketSystem-main\\TicketSystem-main\\TicketAPI\\obj\\",
+        "outputPath": "C:\\Users\\Umut\\TicketSystem\\TicketAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

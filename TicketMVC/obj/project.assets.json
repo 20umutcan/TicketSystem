@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Umut\\Downloads\\TicketSystem-main\\TicketSystem-main\\TicketMVC\\TicketMVC.csproj",
+      "projectUniqueName": "C:\\Users\\Umut\\TicketSystem\\TicketMVC\\TicketMVC.csproj",
       "projectName": "TicketMVC",
-      "projectPath": "C:\\Users\\Umut\\Downloads\\TicketSystem-main\\TicketSystem-main\\TicketMVC\\TicketMVC.csproj",
+      "projectPath": "C:\\Users\\Umut\\TicketSystem\\TicketMVC\\TicketMVC.csproj",
       "packagesPath": "C:\\Users\\Umut\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Umut\\Downloads\\TicketSystem-main\\TicketSystem-main\\TicketMVC\\obj\\",
+      "outputPath": "C:\\Users\\Umut\\TicketSystem\\TicketMVC\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

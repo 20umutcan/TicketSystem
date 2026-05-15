@@ -31,17 +31,39 @@ namespace TicketMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] Ticket ticket)
+        public async Task<IActionResult> Create([FromForm] Ticket ticket, string NewCategoryName, string NewProductName)
         {
+            await ResolveCategoryAndProduct(ticket, NewCategoryName, NewProductName);
+            ModelState.Remove("ProductId");
+            ModelState.ClearValidationState("ProductId");
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                TempData["ErrorMessage"] = "Formda hatalar var: " + string.Join(" ", errors);
+                return RedirectToAction(nameof(Index));
+            }
+
             await _service.CreateTicketAsync(ticket);
+            TempData["SuccessMessage"] = "Kayıt başarıyla oluşturuldu.";
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromForm] Ticket ticket)
+        public async Task<IActionResult> Edit([FromForm] Ticket ticket, string NewCategoryName, string NewProductName)
         {
+            await ResolveCategoryAndProduct(ticket, NewCategoryName, NewProductName);
+            ModelState.Remove("ProductId");
+            ModelState.ClearValidationState("ProductId");
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                TempData["ErrorMessage"] = "Formda hatalar var: " + string.Join(" ", errors);
+                return RedirectToAction(nameof(Index));
+            }
+
             await _service.UpdateTicketAsync(ticket);
+            TempData["SuccessMessage"] = "Kayıt başarıyla güncellendi.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -67,6 +89,37 @@ namespace TicketMVC.Controllers
             await _service.DeleteTicketAsync(id);
             return RedirectToAction(nameof(Index));
         }
+        private async Task ResolveCategoryAndProduct(Ticket ticket, string categoryName, string productName)
+        {
+            if (!string.IsNullOrWhiteSpace(categoryName) && !string.IsNullOrWhiteSpace(productName))
+            {
+                var categories = await _service.GetCategoriesAsync();
+                var cat = Enumerable.FirstOrDefault(categories, c => c.Name.Equals(categoryName, StringComparison.OrdinalIgnoreCase));
+                if (cat == null)
+                {
+                    cat = new Category { Name = categoryName };
+                    await _service.CreateCategoryAsync(cat);
+                    cat = Enumerable.FirstOrDefault(await _service.GetCategoriesAsync(), c => c.Name.Equals(categoryName, StringComparison.OrdinalIgnoreCase));
+                }
+
+                if (cat != null)
+                {
+                    var products = await _service.GetProductsAsync();
+                    var prod = Enumerable.FirstOrDefault(products, p => p.Name.Equals(productName, StringComparison.OrdinalIgnoreCase) && p.CategoryId == cat.Id);
+                    if (prod == null)
+                    {
+                        prod = new Product { Name = productName, CategoryId = cat.Id };
+                        await _service.CreateProductAsync(prod);
+                        prod = Enumerable.FirstOrDefault(await _service.GetProductsAsync(), p => p.Name.Equals(productName, StringComparison.OrdinalIgnoreCase) && p.CategoryId == cat.Id);
+                    }
+                    if (prod != null)
+                    {
+                        ticket.ProductId = prod.Id;
+                    }
+                }
+            }
+        }
     }
 }
+
 
