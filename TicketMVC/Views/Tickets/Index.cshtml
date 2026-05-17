@@ -134,7 +134,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="addCategoryId" class="form-label">Kategori</label>
-                                                        <select id="addCategoryId" name="NewCategoryName" class="form-select form-select-sm select2-cat" required data-placeholder="Kategori seç / yaz">
+                                                        <select id="addCategoryId" name="NewCategoryName" class="form-select form-select-sm select2-cat" data-placeholder="Kategori seç / yaz">
                                 <option value=""></option>
                                 @foreach(var cat in categories)
                                 {
@@ -144,7 +144,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="addProductId" class="form-label">Ürün</label>
-                                                        <select id="addProductId" name="NewProductName" class="form-select form-select-sm select2-prod" required data-placeholder="Ürün seç / yaz">
+                                                        <select id="addProductId" name="NewProductName" class="form-select form-select-sm select2-prod" data-placeholder="Ürün seç / yaz">
                                 <option value=""></option>
                                 @foreach(var p in products)
                                 {
@@ -169,6 +169,10 @@
                                 <option value="2">Çözüldü</option>
                                 <option value="3">Kapalı</option>
                             </select>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="addTechnicianName" class="form-label">Tekniker Adı</label>
+                            <input id="addTechnicianName" name="TechnicianName" class="form-control form-control-sm" maxlength="100" placeholder="Kayıt açan tekniker (isteğe bağlı)" />
                         </div>
                         <div class="col-12">
                             <label for="addDescription" class="form-label">Açıklama / Arıza Detayı</label>
@@ -215,7 +219,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="editCategoryId" class="form-label">Kategori</label>
-                                                        <select id="editCategoryId" name="NewCategoryName" class="form-select form-select-sm select2-cat" required data-placeholder="Kategori seç / yaz">
+                                                        <select id="editCategoryId" name="NewCategoryName" class="form-select form-select-sm select2-cat" data-placeholder="Kategori seç / yaz">
                                 <option value=""></option>
                                 @foreach(var cat in categories)
                                 {
@@ -225,7 +229,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="editProductId" class="form-label">Ürün</label>
-                                                        <select id="editProductId" name="NewProductName" class="form-select form-select-sm select2-prod" required data-placeholder="Ürün seç / yaz">
+                                                        <select id="editProductId" name="NewProductName" class="form-select form-select-sm select2-prod" data-placeholder="Ürün seç / yaz">
                                 <option value=""></option>
                                 @foreach(var p in products)
                                 {

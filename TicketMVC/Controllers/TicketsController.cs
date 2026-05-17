@@ -31,39 +31,73 @@ namespace TicketMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] Ticket ticket, string NewCategoryName, string NewProductName)
+        public async Task<IActionResult> Create([FromForm] Ticket ticket, string? NewCategoryName, string? NewProductName)
         {
-            await ResolveCategoryAndProduct(ticket, NewCategoryName, NewProductName);
-            ModelState.Remove("ProductId");
-            ModelState.ClearValidationState("ProductId");
-            if (!ModelState.IsValid)
+            // Kategori ve ürün çözümleme
+            var success = await ResolveCategoryAndProduct(ticket, NewCategoryName, NewProductName);
+            if (!success)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                TempData["ErrorMessage"] = "Formda hatalar var: " + string.Join(" ", errors);
                 return RedirectToAction(nameof(Index));
             }
 
-            await _service.CreateTicketAsync(ticket);
-            TempData["SuccessMessage"] = "Kayıt başarıyla oluşturuldu.";
+            // ModelState'ten ilgili alanları kaldır (null veya eksik olabilir)
+            ModelState.Remove("ProductId");
+            ModelState.Remove("Product");
+            ModelState.Remove("NewCategoryName");
+            ModelState.Remove("NewProductName");
+
+            if (!ModelState.IsValid)
+            {
+                var errors = string.Join(" | ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                TempData["ErrorMessage"] = $"Form geçersiz: {errors}";
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                await _service.CreateTicketAsync(ticket);
+                TempData["SuccessMessage"] = "Kayıt başarıyla oluşturuldu.";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Kayıt oluşturulurken hata: {ex.Message}";
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromForm] Ticket ticket, string NewCategoryName, string NewProductName)
+        public async Task<IActionResult> Edit([FromForm] Ticket ticket, string? NewCategoryName, string? NewProductName)
         {
-            await ResolveCategoryAndProduct(ticket, NewCategoryName, NewProductName);
-            ModelState.Remove("ProductId");
-            ModelState.ClearValidationState("ProductId");
-            if (!ModelState.IsValid)
+            var success = await ResolveCategoryAndProduct(ticket, NewCategoryName, NewProductName);
+            if (!success)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                TempData["ErrorMessage"] = "Formda hatalar var: " + string.Join(" ", errors);
                 return RedirectToAction(nameof(Index));
             }
 
-            await _service.UpdateTicketAsync(ticket);
-            TempData["SuccessMessage"] = "Kayıt başarıyla güncellendi.";
+            ModelState.Remove("ProductId");
+            ModelState.Remove("Product");
+            ModelState.Remove("NewCategoryName");
+            ModelState.Remove("NewProductName");
+
+            if (!ModelState.IsValid)
+            {
+                var errors = string.Join(" | ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                TempData["ErrorMessage"] = $"Form geçersiz: {errors}";
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                await _service.UpdateTicketAsync(ticket);
+                TempData["SuccessMessage"] = "Kayıt başarıyla güncellendi.";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Güncelleme hatası: {ex.Message}";
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -89,37 +123,56 @@ namespace TicketMVC.Controllers
             await _service.DeleteTicketAsync(id);
             return RedirectToAction(nameof(Index));
         }
-        private async Task ResolveCategoryAndProduct(Ticket ticket, string categoryName, string productName)
+
+        private async Task<bool> ResolveCategoryAndProduct(Ticket ticket, string? categoryName, string? productName)
         {
-            if (!string.IsNullOrWhiteSpace(categoryName) && !string.IsNullOrWhiteSpace(productName))
+            try
             {
+                if (string.IsNullOrWhiteSpace(categoryName) || string.IsNullOrWhiteSpace(productName))
+                {
+                    TempData["ErrorMessage"] = "Kategori ve ürün adı boş olamaz.";
+                    return false;
+                }
+
                 var categories = await _service.GetCategoriesAsync();
-                var cat = Enumerable.FirstOrDefault(categories, c => c.Name.Equals(categoryName, StringComparison.OrdinalIgnoreCase));
+                var cat = categories.FirstOrDefault(c => c.Name.Equals(categoryName, StringComparison.OrdinalIgnoreCase));
                 if (cat == null)
                 {
                     cat = new Category { Name = categoryName };
                     await _service.CreateCategoryAsync(cat);
-                    cat = Enumerable.FirstOrDefault(await _service.GetCategoriesAsync(), c => c.Name.Equals(categoryName, StringComparison.OrdinalIgnoreCase));
+                    categories = await _service.GetCategoriesAsync();
+                    cat = categories.FirstOrDefault(c => c.Name.Equals(categoryName, StringComparison.OrdinalIgnoreCase));
+                    if (cat == null)
+                    {
+                        TempData["ErrorMessage"] = $"Kategori oluşturulamadı: {categoryName}";
+                        return false;
+                    }
                 }
 
-                if (cat != null)
+                var products = await _service.GetProductsAsync();
+                var prod = products.FirstOrDefault(p => p.Name.Equals(productName, StringComparison.OrdinalIgnoreCase) && p.CategoryId == cat.Id);
+                if (prod == null)
                 {
-                    var products = await _service.GetProductsAsync();
-                    var prod = Enumerable.FirstOrDefault(products, p => p.Name.Equals(productName, StringComparison.OrdinalIgnoreCase) && p.CategoryId == cat.Id);
+                    prod = new Product { Name = productName, CategoryId = cat.Id };
+                    await _service.CreateProductAsync(prod);
+                    products = await _service.GetProductsAsync();
+                    prod = products.FirstOrDefault(p => p.Name.Equals(productName, StringComparison.OrdinalIgnoreCase) && p.CategoryId == cat.Id);
                     if (prod == null)
                     {
-                        prod = new Product { Name = productName, CategoryId = cat.Id };
-                        await _service.CreateProductAsync(prod);
-                        prod = Enumerable.FirstOrDefault(await _service.GetProductsAsync(), p => p.Name.Equals(productName, StringComparison.OrdinalIgnoreCase) && p.CategoryId == cat.Id);
-                    }
-                    if (prod != null)
-                    {
-                        ticket.ProductId = prod.Id;
+                        TempData["ErrorMessage"] = $"Ürün oluşturulamadı: {productName}";
+                        return false;
                     }
                 }
+
+                ticket.ProductId = prod.Id;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Kategori/Ürün işlenirken hata: {ex.Message}";
+                System.Diagnostics.Debug.WriteLine($"HATA: {ex}");
+                return false;
             }
         }
     }
 }
-
-
