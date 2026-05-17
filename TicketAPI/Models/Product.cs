@@ -18,7 +18,7 @@ namespace TicketAPI.Models
 
         // Navigation properties
         public Category? Category { get; set; }
-        public ICollection<WarrantyPart> WarrantyParts { get; set; } = new List<WarrantyPart>();
+
         public ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
     }
 }

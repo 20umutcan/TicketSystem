@@ -23,7 +23,6 @@ namespace TicketAPI.Controllers
         {
             var products = await _context.Products
                 .Include(p => p.Category)
-                .Include(p => p.WarrantyParts)
                 .ToListAsync();
             return Ok(products);
         }

@@ -8,7 +8,7 @@ namespace TicketAPI.Models
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<WarrantyPart> WarrantyParts { get; set; }
+
         public DbSet<Ticket> Tickets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -22,11 +22,7 @@ namespace TicketAPI.Models
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<WarrantyPart>()
-                .HasOne(w => w.Product)
-                .WithMany(p => p.WarrantyParts)
-                .HasForeignKey(w => w.ProductId)
-                .OnDelete(DeleteBehavior.Cascade);
+            
 
                         modelBuilder.Entity<Ticket>()
                 .HasOne(t => t.Product)
@@ -76,4 +72,5 @@ namespace TicketAPI.Models
         }
     }
 }
+
 

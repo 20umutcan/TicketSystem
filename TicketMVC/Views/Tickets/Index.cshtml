@@ -1,6 +1,6 @@
 @model IEnumerable<TicketMVC.Models.Ticket>
 @{
-    ViewData["Title"] = "Arýza Kayýtlarý";
+    ViewData["Title"] = "ArÄ±za KayÄ±tlarÄ±";
     var products = ViewBag.Products as IEnumerable<TicketMVC.Models.Product> ?? new List<TicketMVC.Models.Product>();
     var categories = ViewBag.Categories as IEnumerable<TicketMVC.Models.Category> ?? new List<TicketMVC.Models.Category>();
 }
@@ -13,16 +13,16 @@
 </script>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="mb-0">Aktif Arýza Kayýtlarý</h5>
+    <h5 class="mb-0">Aktif ArÄ±za KayÄ±tlarÄ±</h5>
     <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addModal">
-        + Yeni Kayýt
+        + Yeni KayÄ±t
     </button>
 </div>
 
 <!-- Quick Search Bar -->
 <div class="mb-3">
     <input type="text" id="quickSearch" class="form-control form-control-sm"
-           placeholder="&#128269; Müþteri adý, baþlýk veya telefon ile ara..." />
+           placeholder="&#128269; MÃ¼ÅŸteri adÄ±, baÅŸlÄ±k veya telefon ile ara..." />
 </div>
 
 <div class="card shadow-sm">
@@ -31,32 +31,32 @@
             <thead class="table-dark">
                 <tr>
                     <th>#</th>
-                    <th>Öncelik</th>
+                    <th>Ã–ncelik</th>
                 <th>Tekniker</th>
-                    <th>Baþlýk</th>
-                    <th>Müþteri</th>
+                    <th>BaÅŸlÄ±k</th>
+                    <th>MÃ¼ÅŸteri</th>
                     <th>Telefon</th>
-                    <th>Ürün</th>
+                    <th>ÃœrÃ¼n</th>
                     <th>Durum</th>
                     <th>Tarih</th>
-                    <th style="width:130px">Ýþlemler</th>
+                    <th style="width:130px">Ä°ÅŸlemler</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var t in Model)
                 {
                     var priorityBadge = t.Priority switch {
-                        TicketMVC.Models.TicketPriority.Critical => "<span class='badge bg-danger'>KRÝTÝK</span>",
-                        TicketMVC.Models.TicketPriority.High     => "<span class='badge bg-warning text-dark'>YÜKSEK</span>",
+                        TicketMVC.Models.TicketPriority.Critical => "<span class='badge bg-danger'>KRÄ°TÄ°K</span>",
+                        TicketMVC.Models.TicketPriority.High     => "<span class='badge bg-warning text-dark'>YÃœKSEK</span>",
                         TicketMVC.Models.TicketPriority.Normal   => "<span class='badge bg-info text-dark'>NORMAL</span>",
-                        TicketMVC.Models.TicketPriority.Low      => "<span class='badge bg-secondary'>DÜÞÜK</span>",
+                        TicketMVC.Models.TicketPriority.Low      => "<span class='badge bg-secondary'>DÃœÅžÃœK</span>",
                         _ => ""
                     };
                     var statusBadge = t.Status switch {
-                        TicketMVC.Models.TicketStatus.Open       => "<span class='badge bg-danger'>Açýk</span>",
-                        TicketMVC.Models.TicketStatus.InProgress => "<span class='badge bg-warning text-dark'>Ýþlemde</span>",
-                        TicketMVC.Models.TicketStatus.Resolved   => "<span class='badge bg-primary'>Çözüldü</span>",
-                        TicketMVC.Models.TicketStatus.Closed     => "<span class='badge bg-success'>Kapalý</span>",
+                        TicketMVC.Models.TicketStatus.Open       => "<span class='badge bg-danger'>AÃ§Ä±k</span>",
+                        TicketMVC.Models.TicketStatus.InProgress => "<span class='badge bg-warning text-dark'>Ä°ÅŸlemde</span>",
+                        TicketMVC.Models.TicketStatus.Resolved   => "<span class='badge bg-primary'>Ã‡Ã¶zÃ¼ldÃ¼</span>",
+                        TicketMVC.Models.TicketStatus.Closed     => "<span class='badge bg-success'>KapalÄ±</span>",
                         _ => ""
                     };
                     var rowClass = t.Priority == TicketMVC.Models.TicketPriority.Critical ? "table-danger" : "";
@@ -81,16 +81,16 @@
                                     data-priority="@((int)t.Priority)" data-technicianname="@t.TechnicianName"
                                     data-productid="@t.ProductId" data-categoryname="@(t.Product?.Category?.Name)" data-productname="@(t.Product?.Name)"
                                     data-bs-toggle="modal" data-bs-target="#editModal">
-                                Düzenle
+                                DÃ¼zenle
                             </button>
                             <form asp-action="ToggleArchive" method="post" class="d-inline">
                                 @Html.AntiForgeryToken()
                                 <input type="hidden" name="id" value="@t.Id" />
                                 <input type="hidden" name="currentlyArchived" value="false" />
-                                <button type="submit" class="btn btn-secondary btn-xs" title="Arþivle">&#128230;</button>
+                                <button type="submit" class="btn btn-secondary btn-xs" title="ArÅŸivle">&#128230;</button>
                             </form>
                             <form asp-action="Delete" method="post" class="d-inline"
-                                  onsubmit="return confirm('Kaydý kalýcý olarak silmek istiyor musunuz?')">
+                                  onsubmit="return confirm('KaydÄ± kalÄ±cÄ± olarak silmek istiyor musunuz?')">
                                 @Html.AntiForgeryToken()
                                 <input type="hidden" name="id" value="@t.Id" />
                                 <button type="submit" class="btn btn-danger btn-xs">Sil</button>
@@ -110,31 +110,31 @@
             @Html.AntiForgeryToken()
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
-                    <h6 class="modal-title">Yeni Arýza Kaydý</h6>
+                    <h6 class="modal-title">Yeni ArÄ±za KaydÄ±</h6>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row g-2">
                         <div class="col-12">
-                            <label for="addTitle" class="form-label">Baþlýk</label>
+                            <label for="addTitle" class="form-label">BaÅŸlÄ±k</label>
                             <input id="addTitle" name="Title" class="form-control form-control-sm" required maxlength="200"
-                                   placeholder="Örn: Ekran açýlmýyor, Wi-Fi baðlanamýyor..." />
+                                   placeholder="Ã–rn: Ekran aÃ§Ä±lmÄ±yor, Wi-Fi baÄŸlanamÄ±yor..." />
                         </div>
                         <div class="col-md-6">
-                            <label for="addCustomerName" class="form-label">Müþteri Adý</label>
+                            <label for="addCustomerName" class="form-label">MÃ¼ÅŸteri AdÄ±</label>
                             <input id="addCustomerName" name="CustomerName" class="form-control form-control-sm" required maxlength="150"
-                                   placeholder="Müþteri adý soyadý" />
+                                   placeholder="MÃ¼ÅŸteri adÄ± soyadÄ±" />
                         </div>
                         <div class="col-md-6">
-                            <label for="addContactPhone" class="form-label">Ýletiþim Numarasý</label>
+                            <label for="addContactPhone" class="form-label">Ä°letiÅŸim NumarasÄ±</label>
                             <input id="addContactPhone" name="ContactPhone" type="tel" class="form-control form-control-sm" maxlength="30"
                                    pattern="^(0[\s]?\(?([0-9]{3})\)?[\s-]?([0-9]{3})[\s-]?([0-9]{4}))?$" 
-                                   title="Geçerli bir telefon numarasý giriniz (Örn: 0 555 555 5555)."
+                                   title="GeÃ§erli bir telefon numarasÄ± giriniz (Ã–rn: 0 555 555 5555)."
                                    placeholder="0 (5XX) XXX XX XX" />
                         </div>
                         <div class="col-md-6">
                             <label for="addCategoryId" class="form-label">Kategori</label>
-                                                        <select id="addCategoryId" name="NewCategoryName" class="form-select form-select-sm select2-cat" required data-placeholder="Kategori seç / yaz">
+                                                        <select id="addCategoryId" name="NewCategoryName" class="form-select form-select-sm select2-cat" required data-placeholder="Kategori seÃ§ / yaz">
                                 <option value=""></option>
                                 @foreach(var cat in categories)
                                 {
@@ -143,8 +143,8 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="addProductId" class="form-label">Ürün</label>
-                                                        <select id="addProductId" name="NewProductName" class="form-select form-select-sm select2-prod" required data-placeholder="Ürün seç / yaz">
+                            <label for="addProductId" class="form-label">ÃœrÃ¼n</label>
+                                                        <select id="addProductId" name="NewProductName" class="form-select form-select-sm select2-prod" required data-placeholder="ÃœrÃ¼n seÃ§ / yaz">
                                 <option value=""></option>
                                 @foreach(var p in products)
                                 {
@@ -153,32 +153,32 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="addPriority" class="form-label">Öncelik</label>
+                            <label for="addPriority" class="form-label">Ã–ncelik</label>
                             <select id="addPriority" name="Priority" class="form-select form-select-sm">
-                                <option value="0">Düþük</option>
+                                <option value="0">DÃ¼ÅŸÃ¼k</option>
                                 <option value="1" selected>Normal</option>
-                                <option value="2">Yüksek</option>
+                                <option value="2">YÃ¼ksek</option>
                                 <option value="3">Kritik</option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label for="addStatus" class="form-label">Durum</label>
                             <select id="addStatus" name="Status" class="form-select form-select-sm">
-                                <option value="0" selected>Açýk</option>
-                                <option value="1">Ýþlemde</option>
-                                <option value="2">Çözüldü</option>
-                                <option value="3">Kapalý</option>
+                                <option value="0" selected>AÃ§Ä±k</option>
+                                <option value="1">Ä°ÅŸlemde</option>
+                                <option value="2">Ã‡Ã¶zÃ¼ldÃ¼</option>
+                                <option value="3">KapalÄ±</option>
                             </select>
                         </div>
                         <div class="col-12">
-                            <label for="addDescription" class="form-label">Açýklama / Arýza Detayý</label>
+                            <label for="addDescription" class="form-label">AÃ§Ä±klama / ArÄ±za DetayÄ±</label>
                             <textarea id="addDescription" name="Description" class="form-control form-control-sm" rows="3" maxlength="1000"
-                                      placeholder="Arýza belirtileri, ne zaman baþladý, ne denenildi..."></textarea>
+                                      placeholder="ArÄ±za belirtileri, ne zaman baÅŸladÄ±, ne denenildi..."></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Ýptal</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Ä°ptal</button>
                     <button type="submit" class="btn btn-primary btn-sm">Kaydet</button>
                 </div>
             </div>
@@ -194,28 +194,28 @@
             <input type="hidden" id="editId" name="Id" />
             <div class="modal-content">
                 <div class="modal-header bg-warning">
-                    <h6 class="modal-title">Arýza Kaydý Düzenle</h6>
+                    <h6 class="modal-title">ArÄ±za KaydÄ± DÃ¼zenle</h6>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row g-2">
                         <div class="col-12">
-                            <label for="editTitle" class="form-label">Baþlýk</label>
+                            <label for="editTitle" class="form-label">BaÅŸlÄ±k</label>
                             <input id="editTitle" name="Title" class="form-control form-control-sm" required maxlength="200" />
                         </div>
                         <div class="col-md-6">
-                            <label for="editCustomerName" class="form-label">Müþteri Adý</label>
+                            <label for="editCustomerName" class="form-label">MÃ¼ÅŸteri AdÄ±</label>
                             <input id="editCustomerName" name="CustomerName" class="form-control form-control-sm" required maxlength="150" />
                         </div>
                         <div class="col-md-6">
-                            <label for="editContactPhone" class="form-label">Ýletiþim Numarasý</label>
+                            <label for="editContactPhone" class="form-label">Ä°letiÅŸim NumarasÄ±</label>
                             <input id="editContactPhone" name="ContactPhone" type="tel" class="form-control form-control-sm" maxlength="30"
                                    pattern="^(0[\s]?\(?([0-9]{3})\)?[\s-]?([0-9]{3})[\s-]?([0-9]{4}))?$" 
-                                   title="Geçerli bir telefon numarasý giriniz (Örn: 0 555 555 5555)." />
+                                   title="GeÃ§erli bir telefon numarasÄ± giriniz (Ã–rn: 0 555 555 5555)." />
                         </div>
                         <div class="col-md-6">
                             <label for="editCategoryId" class="form-label">Kategori</label>
-                                                        <select id="editCategoryId" name="NewCategoryName" class="form-select form-select-sm select2-cat" required data-placeholder="Kategori seç / yaz">
+                                                        <select id="editCategoryId" name="NewCategoryName" class="form-select form-select-sm select2-cat" required data-placeholder="Kategori seÃ§ / yaz">
                                 <option value=""></option>
                                 @foreach(var cat in categories)
                                 {
@@ -224,8 +224,8 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="editProductId" class="form-label">Ürün</label>
-                                                        <select id="editProductId" name="NewProductName" class="form-select form-select-sm select2-prod" required data-placeholder="Ürün seç / yaz">
+                            <label for="editProductId" class="form-label">ÃœrÃ¼n</label>
+                                                        <select id="editProductId" name="NewProductName" class="form-select form-select-sm select2-prod" required data-placeholder="ÃœrÃ¼n seÃ§ / yaz">
                                 <option value=""></option>
                                 @foreach(var p in products)
                                 {
@@ -234,36 +234,36 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="editPriority" class="form-label">Öncelik</label>
+                            <label for="editPriority" class="form-label">Ã–ncelik</label>
                             <select id="editPriority" name="Priority" class="form-select form-select-sm">
-                                <option value="0">Düþük</option>
+                                <option value="0">DÃ¼ÅŸÃ¼k</option>
                                 <option value="1">Normal</option>
-                                <option value="2">Yüksek</option>
+                                <option value="2">YÃ¼ksek</option>
                                 <option value="3">Kritik</option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label for="editStatus" class="form-label">Durum</label>
                             <select id="editStatus" name="Status" class="form-select form-select-sm">
-                                <option value="0">Açýk</option>
-                                <option value="1">Ýþlemde</option>
-                                <option value="2">Çözüldü</option>
-                                <option value="3">Kapalý</option>
+                                <option value="0">AÃ§Ä±k</option>
+                                <option value="1">Ä°ÅŸlemde</option>
+                                <option value="2">Ã‡Ã¶zÃ¼ldÃ¼</option>
+                                <option value="3">KapalÄ±</option>
                             </select>
                         </div>
                                                   <div class="col-md-12">
-                              <label for="editTechnicianName" class="form-label">Tekniker Adý</label>
-                              <input id="editTechnicianName" name="TechnicianName" class="form-control form-control-sm" maxlength="100" placeholder="Kayýt açan tekniker" />
+                              <label for="editTechnicianName" class="form-label">Tekniker AdÄ±</label>
+                              <input id="editTechnicianName" name="TechnicianName" class="form-control form-control-sm" maxlength="100" placeholder="KayÄ±t aÃ§an tekniker" />
                           </div>
                         <div class="col-12">
-                            <label for="editDescription" class="form-label">Açýklama</label>
+                            <label for="editDescription" class="form-label">AÃ§Ä±klama</label>
                             <textarea id="editDescription" name="Description" class="form-control form-control-sm" rows="3" maxlength="1000"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Ýptal</button>
-                    <button type="submit" class="btn btn-warning btn-sm">Güncelle</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Ä°ptal</button>
+                    <button type="submit" class="btn btn-warning btn-sm">GÃ¼ncelle</button>
                 </div>
             </div>
         </form>

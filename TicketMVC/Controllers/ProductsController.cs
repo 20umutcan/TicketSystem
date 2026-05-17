@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TicketMVC.Models;
 using TicketMVC.Services;
 
@@ -45,21 +45,8 @@ namespace TicketMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddWarrantyPart([FromForm] WarrantyPart part)
-        {
-            await _service.CreateWarrantyPartAsync(part);
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteWarrantyPart(int id)
-        {
-            await _service.DeleteWarrantyPartAsync(id);
-            return RedirectToAction(nameof(Index));
-        }
+        
     }
 }
+
 

@@ -35,6 +35,18 @@ namespace TicketAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Bilgisayar"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Akıllı Telefon"
+                        });
                 });
 
             modelBuilder.Entity("TicketAPI.Models.Product", b =>
@@ -60,6 +72,20 @@ namespace TicketAPI.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            Name = "Dell XPS 15"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 2,
+                            Name = "iPhone 14 Pro"
+                        });
                 });
 
             modelBuilder.Entity("TicketAPI.Models.Ticket", b =>
@@ -110,30 +136,36 @@ namespace TicketAPI.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Tickets");
-                });
 
-            modelBuilder.Entity("TicketAPI.Models.WarrantyPart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("PartName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("WarrantyMonths")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("WarrantyParts");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ContactPhone = "0 555 123 4567",
+                            CreatedDate = new DateTime(2026, 5, 14, 10, 0, 0, 0, DateTimeKind.Utc),
+                            CustomerName = "Ahmet Yılmaz",
+                            Description = "Cihazın güç tuşuna basıldığında tepki vermiyor.",
+                            IsArchived = false,
+                            Priority = 2,
+                            ProductId = 1,
+                            Status = 0,
+                            TechnicianName = "Umut Tekniker",
+                            Title = "Ekran Açılmıyor"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ContactPhone = "0 532 987 6543",
+                            CreatedDate = new DateTime(2026, 5, 15, 9, 30, 0, 0, DateTimeKind.Utc),
+                            CustomerName = "Ayşe Kaya",
+                            Description = "Kabloyu takınca bazen şarj alıyor bazen almıyor.",
+                            IsArchived = false,
+                            Priority = 1,
+                            ProductId = 2,
+                            Status = 1,
+                            TechnicianName = "Ali Usta",
+                            Title = "Şarj Soketi Temassızlığı"
+                        });
                 });
 
             modelBuilder.Entity("TicketAPI.Models.Product", b =>
@@ -158,17 +190,6 @@ namespace TicketAPI.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("TicketAPI.Models.WarrantyPart", b =>
-                {
-                    b.HasOne("TicketAPI.Models.Product", "Product")
-                        .WithMany("WarrantyParts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("TicketAPI.Models.Category", b =>
                 {
                     b.Navigation("Products");
@@ -177,8 +198,6 @@ namespace TicketAPI.Migrations
             modelBuilder.Entity("TicketAPI.Models.Product", b =>
                 {
                     b.Navigation("Tickets");
-
-                    b.Navigation("WarrantyParts");
                 });
 #pragma warning restore 612, 618
         }

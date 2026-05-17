@@ -46,19 +46,6 @@ namespace TicketMVC.Services
         public async Task DeleteProductAsync(int id)
             => (await _httpClient.DeleteAsync(_baseUrl + $"products/{id}")).EnsureSuccessStatusCode();
 
-        // WarrantyParts
-        public async Task<IEnumerable<WarrantyPart>> GetWarrantyPartsByProductAsync(int productId)
-            => await _httpClient.GetFromJsonAsync<IEnumerable<WarrantyPart>>(_baseUrl + $"warrantyparts/byproduct/{productId}") ?? new List<WarrantyPart>();
-
-        public async Task CreateWarrantyPartAsync(WarrantyPart part)
-            => (await _httpClient.PostAsJsonAsync(_baseUrl + "warrantyparts", part)).EnsureSuccessStatusCode();
-
-        public async Task UpdateWarrantyPartAsync(WarrantyPart part)
-            => (await _httpClient.PutAsJsonAsync(_baseUrl + $"warrantyparts/{part.Id}", part)).EnsureSuccessStatusCode();
-
-        public async Task DeleteWarrantyPartAsync(int id)
-            => (await _httpClient.DeleteAsync(_baseUrl + $"warrantyparts/{id}")).EnsureSuccessStatusCode();
-
         // Tickets
         public async Task<IEnumerable<Ticket>> GetTicketsAsync()
             => await _httpClient.GetFromJsonAsync<IEnumerable<Ticket>>(_baseUrl + "tickets") ?? new List<Ticket>();
@@ -79,3 +66,4 @@ namespace TicketMVC.Services
             => (await _httpClient.DeleteAsync(_baseUrl + $"tickets/{id}")).EnsureSuccessStatusCode();
     }
 }
+

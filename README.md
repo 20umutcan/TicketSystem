@@ -9,8 +9,8 @@ Bu proje, küçük ve orta ölçekli iþletmelerin (bilgisayar teknik servisleri, tami
 `
 TicketSystem/
 +¦¦ TicketAPI/          › ASP.NET Core Web API (Entity Framework Core + SQLite)
--   +¦¦ Controllers/    › CategoriesController, ProductsController, TicketsController, WarrantyPartsController
--   +¦¦ Models/         › Category, Product, Ticket, WarrantyPart, TicketDbContext
+-   +¦¦ Controllers/    › CategoriesController, ProductsController, TicketsController
+-   +¦¦ Models/         › Category, Product, Ticket, TicketDbContext
 -   +¦¦ Repositories/   › IRepository<T>, Repository<T>  (Generic Repository Pattern)
 -   L¦¦ Migrations/     › EF Core Code-First migration
 -
@@ -44,12 +44,10 @@ Sistemdeki tablolar ve iliþkiler (One-to-Many):
 `
 Category (1) ¦¦¦¦¦¦¦¦ (N) Product
 Product  (1) ¦¦¦¦¦¦¦¦ (N) Ticket
-Product  (1) ¦¦¦¦¦¦¦¦ (N) WarrantyPart
 `
 
 - Bir **Kategori** altýnda birçok **Ürün** tanýmlanabilir.
 - Bir **Ürün** için birçok **Arýza Kaydý (Ticket)** oluþturulabilir. Müþteri bilgileri direkt serbest metin olarak Ticket içerisine kaydedilir. (Küçük iþletmeler için hýzlý kayýt giriþini saðlamak adýna müþteri tablosu ayrýþtýrýlmamýþtýr, Ticket içerisinde barýndýrýlmaktadýr).
-- Bir **Ürün** üzerinde tamir edilebilecek birçok **Garanti Parçasý (WarrantyPart)** olabilir.
 
 ---
 
@@ -113,3 +111,4 @@ Kullanýlan teknikler:
 - Proje içindeki gereksiz/ölü kodlarýn (müþteri tablosu gibi) silinip mimarinin 3 ana tablo üzerine optimize edilmesi ("Dead Code Elimination").
 - UX iyileþtirmesi için JavaScript kullanýlarak anlýk "Input Mask" kodlanmasý (Prompt Engineering).
 - SOLID ve Clean Architecture standartlarýna uygun biçimlendirme ve Türkçe hata mesajý özelleþtirmeleri yapýldý.
+

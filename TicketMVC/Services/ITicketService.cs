@@ -18,12 +18,6 @@ namespace TicketMVC.Services
         Task UpdateProductAsync(Product product);
         Task DeleteProductAsync(int id);
 
-        // WarrantyParts
-        Task<IEnumerable<WarrantyPart>> GetWarrantyPartsByProductAsync(int productId);
-        Task CreateWarrantyPartAsync(WarrantyPart part);
-        Task UpdateWarrantyPartAsync(WarrantyPart part);
-        Task DeleteWarrantyPartAsync(int id);
-
         // Tickets
         Task<IEnumerable<Ticket>> GetTicketsAsync();
         Task<IEnumerable<Ticket>> GetArchivedTicketsAsync();
@@ -33,3 +27,4 @@ namespace TicketMVC.Services
         Task DeleteTicketAsync(int id);
     }
 }
+
