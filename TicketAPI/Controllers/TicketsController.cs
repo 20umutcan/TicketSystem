@@ -73,8 +73,24 @@ namespace TicketAPI.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _repository.UpdateAsync(ticket);
-            await _repository.SaveChangesAsync();
+            // Mevcut kaydı veritabanından bul (navigation propertysiz)
+            var existingTicket = await _context.Tickets.FindAsync(id);
+            if (existingTicket == null)
+                return NotFound();
+
+            // Sadece scalar alanları güncelle (Product, Category gibi navigation property'leri yok say)
+            existingTicket.Title = ticket.Title;
+            existingTicket.Description = ticket.Description;
+            existingTicket.CustomerName = ticket.CustomerName;
+            existingTicket.ContactPhone = ticket.ContactPhone;
+            existingTicket.Status = ticket.Status;
+            existingTicket.Priority = ticket.Priority;
+            existingTicket.IsArchived = ticket.IsArchived;
+            existingTicket.TechnicianName = ticket.TechnicianName;
+            existingTicket.ProductId = ticket.ProductId;
+            // CreatedDate olduğu gibi kalsın
+
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 
@@ -85,5 +101,7 @@ namespace TicketAPI.Controllers
             await _repository.SaveChangesAsync();
             return NoContent();
         }
+
+        
     }
 }
