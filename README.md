@@ -8,20 +8,17 @@ Proje sayesinde işletmeler, tamir ettikleri ürünleri ve kategorilerini sistem
 
 ## Proje Mimarisi
 
-\\\	ext
-TicketSystem/
-├── TicketAPI/          - ASP.NET Core Web API (Entity Framework Core + SQLite)
-│   ├── Controllers/    - CategoriesController, ProductsController, TicketsController
-│   ├── Models/         - Category, Product, Ticket, TicketStatus, TicketPriority, TicketDbContext
-│   ├── Repositories/   - IRepository<T>, Repository<T>  (Generic Repository Pattern)
-│   └── Migrations/     - EF Core Code-First migration
-│
-└── TicketMVC/          - ASP.NET Core MVC (HttpClient Service Layer)
-    ├── Controllers/    - HomeController, CategoriesController, ProductsController, TicketsController
-    ├── Models/         - Aynı entity modeller (API ile senkronize)
-    ├── Services/       - ITicketService, TicketService (HttpClient ile API tüketimi)
-    └── Views/          - Bootstrap 5.3 (Modal CRUD, Sidebar, Dashboard)
-\\\
+- 📁 **TicketSystem/**
+  - 📁 **TicketAPI/** *(ASP.NET Core Web API / SQLite)*
+    - 📂 `Controllers/` - API Uç Noktaları (Categories, Products, Tickets)
+    - 📂 `Models/` - Veri Modelleri (Category, Product, Ticket vb.)
+    - 📂 `Repositories/` - Generic Repository Desen Yapısı
+    - 📂 `Migrations/` - Entity Framework Code-First Dosyaları
+  - 📁 **TicketMVC/** *(ASP.NET Core MVC / İstemci Katmanı)*
+    - 📂 `Controllers/` - MVC Sayfa Yönlendirmeleri
+    - 📂 `Models/` - API ile Senkronize ViewModel'ler
+    - 📂 `Services/` - HttpClient Tabanlı API Tüketim Servisleri
+    - 📂 `Views/` - Bootstrap 5.3 Tema ve Kullanıcı Arayüzü
 
 ---
 
@@ -43,10 +40,8 @@ TicketSystem/
 
 Sistemdeki tablolar ve ilişkiler (One-to-Many):
 
-\\\	ext
-Category (1) ──────── (N) Product
-Product  (1) ──────── (N) Ticket
-\\\
+* Category (1) ──────── (N) Product
+* Product  (1) ──────── (N) Ticket
 
 - Bir **Kategori** altında birçok **Ürün** tanımlanabilir.
 - Bir **Ürün** için birçok **Arıza Kaydı (Ticket)** oluşturulabilir. Küçük işletmeler için ayrı bir müşteri tablosu yükünden kaçınarak, müşteri bilgileri direkt serbest metin olarak Ticket içerisine kaydedilir.
@@ -80,7 +75,7 @@ Swagger UI: http://localhost:5062/swagger
 
 1. **Birim (Katman) Testleri:** API tarafındaki Endpoint'ler Swagger arayüzü üzerinden manuel olarak HTTP testlerine tabi tutulmuş ve format doğruluğu test edilmiştir.
 2. **Kullanıcı Girdi Kontrolü (Client-Side & Server-Side Validation):** MVC View tarafında JS Regex maskeleri ve MVC ModelState kontrolleri ile geçersiz verilerin API'ye ulaşmadan reddedilmesi sağlandı.
-3. **Database Bütünlüğü:** Code-First yaklaşımı ile DB ayağa kalkarken \HasData\ metodu kullanılarak örnek verilerle doldurulmuştur. Entity Framework ilişkilerindeki \Cascade\ ve \Restrict\ delete özellikleri doğrulandı.
+3. **Database Bütünlüğü:** Code-First yaklaşımı ile DB ayağa kalkarken `HasData` metodu kullanılarak örnek verilerle doldurulmuştur. Entity Framework ilişkilerindeki `Cascade` ve `Restrict` delete özellikleri doğrulandı.
 
 ---
 
@@ -88,19 +83,19 @@ Swagger UI: http://localhost:5062/swagger
 
 Uygulamayı çalıştırmak için iki konsol oturumu açılmalıdır.
 
-\\\powershell
+```bash
 # Terminal 1 - API'yi Başlatın
 cd TicketAPI
 dotnet run
-\\\
-API başladıktan sonra \http://localhost:5062/swagger\ üzerinden direkt test edilebilir.
+```
+API başladıktan sonra `http://localhost:5062/swagger` üzerinden direkt test edilebilir.
 
-\\\powershell
+```bash
 # Terminal 2 - MVC Arayüzünü Başlatın
 cd TicketMVC
 dotnet run
-\\\
-Arayüz başladıktan sonra tarayıcı üzerinden \http://localhost:5106\ adresine giderek teknik servis arayüzünü kullanabilirsiniz.
+```
+Arayüz başladıktan sonra tarayıcı üzerinden `http://localhost:5106` adresine giderek teknik servis arayüzünü kullanabilirsiniz.
 
 Sol menüden:
 - **Dashboard:** Açık, işlenen, kritik ve diğer istatistikleri genel bir ekranda görebilirsiniz.
