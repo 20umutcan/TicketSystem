@@ -7,12 +7,10 @@ namespace TicketMVC.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
     private readonly ITicketService _ticketService;
 
-    public HomeController(ILogger<HomeController> logger, ITicketService ticketService)
+    public HomeController(ITicketService ticketService)
     {
-        _logger = logger;
         _ticketService = ticketService;
     }
 
@@ -30,11 +28,6 @@ public class HomeController : Controller
         ViewBag.CriticalCount = tickets.Count(t => t.Priority == TicketPriority.Critical && !t.IsArchived);
         ViewBag.RecentTickets = tickets.Take(5).ToList();
 
-        return View();
-    }
-
-    public IActionResult Privacy()
-    {
         return View();
     }
 

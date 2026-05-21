@@ -23,7 +23,7 @@ namespace TicketAPI.Controllers
         {
             var tickets = await _context.Tickets
                 .Include(t => t.Product)
-                    .ThenInclude(p => p.Category)
+                    .ThenInclude(p => p!.Category)
                 .OrderByDescending(t => t.Id)
                 .ToListAsync();
             return Ok(tickets);
@@ -45,7 +45,7 @@ namespace TicketAPI.Controllers
         {
             var ticket = await _context.Tickets
                 .Include(t => t.Product)
-                    .ThenInclude(p => p.Category)
+                    .ThenInclude(p => p!.Category)
                 .FirstOrDefaultAsync(t => t.Id == id);
             if (ticket == null)
                 return NotFound();

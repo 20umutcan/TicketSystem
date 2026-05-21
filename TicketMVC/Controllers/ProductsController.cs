@@ -41,7 +41,19 @@ namespace TicketMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            await _service.DeleteProductAsync(id);
+            try
+            {
+                await _service.DeleteProductAsync(id);
+                TempData["SuccessMessage"] = "Ürün başarıyla silindi.";
+            }
+            catch (HttpRequestException)
+            {
+                TempData["ErrorMessage"] = "Bu ürüne bağlı arıza kayıtları bulunduğu için silme işlemi gerçekleştirilemiyor. Lütfen önce ilişkili kayıtları silin.";
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Silme işlemi sırasında beklenmeyen bir hata oluştu.";
+            }
             return RedirectToAction(nameof(Index));
         }
 

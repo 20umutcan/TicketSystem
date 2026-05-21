@@ -10,15 +10,15 @@ Proje sayesinde işletmeler, tamir ettikleri ürünleri ve kategorilerini sistem
 
 - 📁 **TicketSystem/**
   - 📁 **TicketAPI/** *(ASP.NET Core Web API / SQLite)*
-    - 📂 `Controllers/` - API Uç Noktaları (Categories, Products, Tickets)
-    - 📂 `Models/` - Veri Modelleri (Category, Product, Ticket vb.)
-    - 📂 `Repositories/` - Generic Repository Desen Yapısı
-    - 📂 `Migrations/` - Entity Framework Code-First Dosyaları
+    - 📂 \Controllers/\ - API Uç Noktaları (Categories, Products, Tickets)
+    - 📂 \Models/\ - Veri Modelleri (Category, Product, Ticket vb.)
+    - 📂 \Repositories/\ - Generic Repository Desen Yapısı
+    - 📂 \Migrations/\ - Entity Framework Code-First Dosyaları
   - 📁 **TicketMVC/** *(ASP.NET Core MVC / İstemci Katmanı)*
-    - 📂 `Controllers/` - MVC Sayfa Yönlendirmeleri
-    - 📂 `Models/` - API ile Senkronize ViewModel'ler
-    - 📂 `Services/` - HttpClient Tabanlı API Tüketim Servisleri
-    - 📂 `Views/` - Bootstrap 5.3 Tema ve Kullanıcı Arayüzü
+    - 📂 \Controllers/\ - MVC Sayfa Yönlendirmeleri
+    - 📂 \Models/\ - API ile Senkronize ViewModel'ler
+    - 📂 \Services/\ - HttpClient Tabanlı API Tüketim Servisleri
+    - 📂 \Views/\ - Bootstrap 5.3 Tema ve Kullanıcı Arayüzü
 
 ---
 
@@ -40,8 +40,8 @@ Proje sayesinde işletmeler, tamir ettikleri ürünleri ve kategorilerini sistem
 
 Sistemdeki tablolar ve ilişkiler (One-to-Many):
 
-* Category (1) ──────── (N) Product
-* Product  (1) ──────── (N) Ticket
+* \Category (1) ──────── (N) Product\
+* \Product  (1) ──────── (N) Ticket\
 
 - Bir **Kategori** altında birçok **Ürün** tanımlanabilir.
 - Bir **Ürün** için birçok **Arıza Kaydı (Ticket)** oluşturulabilir. Küçük işletmeler için ayrı bir müşteri tablosu yükünden kaçınarak, müşteri bilgileri direkt serbest metin olarak Ticket içerisine kaydedilir.
@@ -75,7 +75,7 @@ Swagger UI: http://localhost:5062/swagger
 
 1. **Birim (Katman) Testleri:** API tarafındaki Endpoint'ler Swagger arayüzü üzerinden manuel olarak HTTP testlerine tabi tutulmuş ve format doğruluğu test edilmiştir.
 2. **Kullanıcı Girdi Kontrolü (Client-Side & Server-Side Validation):** MVC View tarafında JS Regex maskeleri ve MVC ModelState kontrolleri ile geçersiz verilerin API'ye ulaşmadan reddedilmesi sağlandı.
-3. **Database Bütünlüğü:** Code-First yaklaşımı ile DB ayağa kalkarken `HasData` metodu kullanılarak örnek verilerle doldurulmuştur. Entity Framework ilişkilerindeki `Cascade` ve `Restrict` delete özellikleri doğrulandı.
+3. **Database Bütünlüğü:** Code-First yaklaşımı ile DB ayağa kalkarken \HasData\ metodu kullanılarak örnek verilerle doldurulmuştur. Entity Framework ilişkilerindeki \Cascade\ ve \Restrict\ delete özellikleri doğrulandı.
 
 ---
 
@@ -83,19 +83,19 @@ Swagger UI: http://localhost:5062/swagger
 
 Uygulamayı çalıştırmak için iki konsol oturumu açılmalıdır.
 
-```bash
+\\\ash
 # Terminal 1 - API'yi Başlatın
 cd TicketAPI
 dotnet run
-```
-API başladıktan sonra `http://localhost:5062/swagger` üzerinden direkt test edilebilir.
+\\\
+API başladıktan sonra \http://localhost:5062/swagger\ üzerinden direkt test edilebilir.
 
-```bash
+\\\ash
 # Terminal 2 - MVC Arayüzünü Başlatın
 cd TicketMVC
 dotnet run
-```
-Arayüz başladıktan sonra tarayıcı üzerinden `http://localhost:5106` adresine giderek teknik servis arayüzünü kullanabilirsiniz.
+\\\
+Arayüz başladıktan sonra tarayıcı üzerinden \http://localhost:5106\ adresine giderek teknik servis arayüzünü kullanabilirsiniz.
 
 Sol menüden:
 - **Dashboard:** Açık, işlenen, kritik ve diğer istatistikleri genel bir ekranda görebilirsiniz.
@@ -114,6 +114,15 @@ Bu projeyi geliştirirken Yapay Zeka (GitHub Copilot / LLM) araçları yoğun ol
 
 ---
 
+## Quality ve Code Review (Code Cleanup / SonarQube Raporları)
+
+Projeyi daha profesyonel ve teknik borcu düşük bir mimari haline getirmek için **SonarQube** statik analiz araçları çalıştırılmış ve temizleme işlemleri yapılmıştır. 
+- **Teknik Borç (Technical Debt)** hesaplamalarında ölü (dead-code) şablon artıkları ve kullanılmayan controller rotaları (örneğin Home/Privacy.cshtml), Program.cs altındaki statik log ve class tanımlamaları silinmiştir. 
+- Yapılan güncellemeler ve gereksiz uzantıların temizlenmesi sonucu projenin kaynak kod temizliği sağlanmış, hata ve \
+ull warning\ olasılıkları giderilmiş ve **teknik borç oranı %5'in altına başarılı bir şekilde düşürülmüştür.** Her adım sonrası Controller derlemeleri (build) testten geçirilmiştir.
+
+---
+
 ## Kullanılan Yapay Zeka Araçları
 
 Bu projede **Gemini 3.1 Pro** kullanılarak Refactoring, Code Clean-up ve Bug-Fixing gerçekleştirilmiştir.  
@@ -121,3 +130,4 @@ Kullanılan teknikler:
 - Proje içindeki gereksiz/ölü kodların silinip mimarinin 3 ana tablo üzerine optimize edilmesi ("Dead Code Elimination").
 - UX iyileştirmesi için JavaScript kullanılarak anlık "Input Mask" kodlanması (Prompt Engineering).
 - SOLID ve Clean Architecture standartlarına uygun biçimlendirme, Türkçe hata mesajı özelleştirmeleri, "Durum/Öncelik ve Arşiv" altyapısının eklenmesi yapıldı.
+- **Statik kod analizi (SonarQube) ile refactoring testleri edilip derleme aşamasındaki uyarıları giderilmesi sağlandı.**

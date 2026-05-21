@@ -1,6 +1,5 @@
 @TicketAPI_HostAddress = http://localhost:5062
 
-GET {{TicketAPI_HostAddress}}/weatherforecast/
+GET {{TicketAPI_HostAddress}}/api/tickets
 Accept: application/json
-
 ###
